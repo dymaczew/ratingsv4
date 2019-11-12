@@ -39,3 +39,21 @@ spec:
             value : "{{ .Values.service.servicePort }}"
           - name: APPLICATION_NAME
             value: "{{ .Release.Name }}"
+          - name: OPENTRACING_ENABLED
+            value: "true"
+          - name: JAEGER_SAMPLER_TYPE
+            value: "probabilistic"
+          - name: JAEGER_SAMPLER_PARAM
+            value: "1"
+          - name: LATENCY_SAMPLER_PARAM
+            value: "1"
+        volumeMounts:
+        - mountPath: /opt/ibm/apm/serverconfig
+          name: global-environment
+      volumes:
+      - name: global-environment
+        secret:
+          defaultMode: 420
+          optional: true
+          secretName: icam-server-secret
+
