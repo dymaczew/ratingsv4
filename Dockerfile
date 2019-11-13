@@ -18,8 +18,10 @@ FROM node:8-slim
 
 COPY package.json /opt/microservices/
 COPY ratings.js /opt/microservices/
-COPY ibmapm /opt/microservices/ibmapm/
+#COPY ibmapm /opt/microservices/ibmapm/
+COPY ibmapm-greenfield-v8-lx64.tgz /opt/microservices
 WORKDIR /opt/microservices
+RUN tar xvfz ibmapm-greenfield-v8-lx64.tgz && rm /opt/microservices/ibmapm-greenfield-v8-lx64.tgz
 RUN npm install
 
 ARG service_version
