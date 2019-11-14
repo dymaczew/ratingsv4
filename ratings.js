@@ -96,7 +96,7 @@ dispatcher.onGet('/wait', function (req, res) {
   const timeout = 5;
   const delayedResponse = () => {
     res.writeHead(200, {'Content-type': 'application/json'})
-    res.end('{result: "Service is slooow"}')
+    res.end('{"result": "Service is slooow"}')
     };
   setTimeout(delayedResponse, timeout * 1000 - 500 + Math.random() * 1000);
   });
@@ -105,7 +105,7 @@ dispatcher.onGet('/error', function (req, res) {
   const timeout = 5;
   const delayedResponse = () => {
     res.writeHead(500, {'Content-type': 'application/json'})
-    res.end('{result: "Inrenal server error"}')
+    res.end('{"result": "Inrenal server error"}')
     };
   setTimeout(delayedResponse, timeout * 10);
   });
