@@ -225,7 +225,12 @@ dispatcher.onGet(/^\/ratings\/[0-9]*/, function (req, res) {
           }
       }
       else {
-        getLocalReviewsSuccessful(res, productId)
+//        getLocalReviewsSuccessful(res, productId)
+        if (process.env.FEATURES_ON === 'slow') {
+          getLocalReviewsSlow(res, productId)
+        } else {
+          getLocalReviewsSuccessful(res, productId)
+        }
       }
   }
 })
@@ -252,6 +257,16 @@ function getLocalReviewsSuccessful(res, productId) {
   res.writeHead(200, {'Content-type': 'application/json'})
   res.end(JSON.stringify(getLocalReviews(productId)))
 }
+
+function getLocalReviewsSlow(res, productId) {
+  const timeout = 5;
+  const delayedResponse = () => {
+    res.writeHead(200, {'Content-type': 'application/json'})
+    res.end(JSON.stringify(getLocalReviews(productId)))
+  };
+  setTimeout(delayedResponse, timeout * 1000 - 500 + Math.random() * 1000);  
+}
+
 
 function getLocalReviewsServiceUnavailable(res) {
   res.writeHead(503, {'Content-type': 'application/json'})
